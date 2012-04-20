@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <EditTextPreference android:title="@string/PROMPT_PROFILENAME" android:key="PROFILENAME"/>
+    <ListPreference android:key="PROFILETYPE" android:title="@string/PROMPT_PROFILETYPE" android:entryValues="@array/PROFILETYPE_ENTRYVALUES" android:entries="@array/PROFILETYPE_ENTRIES"/>
+    <EditTextPreference android:title="@string/PROMPT_SERVERNAME" android:key="SERVERNAME"/>
+    <EditTextPreference android:title="@string/PROMPT_USERNAME" android:key="USERNAME"/>
+    <EditTextPreference android:title="@string/PROMPT_PASSWORD" android:key="PASSWORD" android:inputType="textPassword"/>
+    <CheckBoxPreference android:title="@string/PROMPT_ISPPTPENCRYPT" android:key="ISPPTPENCRYPT"/>
+    <CheckBoxPreference android:title="@string/PROMPT_ISL2TPSECRETSTR" android:key="ISL2TPSECRETSTR"/>
+    <EditTextPreference android:title="@string/PROMPT_L2TPSECRETSTR" android:key="L2TPSECRETSTR" android:dependency="ISL2TPSECRETSTR" android:inputType="textPassword"/>
+    <EditTextPreference android:title="@string/PROMPT_ROUTELIST" android:key="ROUTELIST"/>
+    <EditTextPreference android:title="@string/PROMPT_DOMAINSUFFIX" android:key="DOMAINSUFFIX"/>
+
+</PreferenceScreen>
