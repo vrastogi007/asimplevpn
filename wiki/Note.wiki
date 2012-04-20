@@ -9,3 +9,5 @@ Just because android didn't provide a password store function.
 
 *This app is NOT finished, and probably never will be finished at all*
 *There's still some known bug here*
+
+Anyone is welcomed to modify this project for your need.
