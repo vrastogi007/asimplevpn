@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--string name="hello">Hello World, SimpleVPNActivity!</string-->
+    <string name="app_name">ASimpleVpn</string>
+    <string name="MANAGE_VPN_LIST">Manage VPN List</string>
+    <string name="MANAGE_VPN_LIST_NOTE">add/modify/delete VPN configurations</string>        
+    <string name="EMPTY_PROMPT">No Data</string>
+    <string name="ADD_PROFILE">Add Profile</string>
+    <string name="MODIFY_PROFILE">Modify Profile</string>
+    <string name="DELETE_PROFILE">Delete Profile</string>
+    <string name="PROMPT_DOMAINSUFFIX">Domain Suffix</string>
+    <string name="PROMPT_PROFILENAME">Profile Name</string>
+    <string name="PROMPT_PROFILETYPE">Profile Type</string>
+    <string name="PROMPT_SERVERNAME">Server Name</string>
+    <string name="PROMPT_ROUTELIST">Route List</string>
+    <string name="PROMPT_ISPPTPENCRYPT">PPTP Encrypt?</string>
+    <string name="PROMPT_ISL2TPSECRETSTR">Use L2TP Secret String?</string>
+    <string name="PROMPT_L2TPSECRETSTR">L2TP Secret String</string>
+    <string name="PROMPT_USERNAME">User Name</string>
+    <string name="PROMPT_PASSWORD">Password</string>
+</resources>
