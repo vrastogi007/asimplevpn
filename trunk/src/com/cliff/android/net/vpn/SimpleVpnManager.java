@@ -9,7 +9,9 @@ import android.content.ServiceConnection;
 import android.net.vpn.IVpnService;
 import android.net.vpn.VpnManager;
 import android.net.vpn.VpnProfile;
+import android.os.ConditionVariable;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 import android.net.vpn.VpnState;
@@ -133,11 +135,11 @@ public class SimpleVpnManager {
 
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
-				//checkStatus();
+				checkStatus();
 
 			}
 		};
-		if (!mVpnManager.bindVpnService(c)) {
+		if (!bindService(c)) {
 			Toast.makeText(mContext, "bind Failed", Toast.LENGTH_SHORT);
 			// TextView testText = (TextView) findViewById(R.id.testText);
 			// testText.setText("bind not ok");
@@ -154,6 +156,7 @@ public class SimpleVpnManager {
 					//Log.e(TAG, "disconnect called");
 
 				} catch (Throwable e) {
+                    checkStatus();
 					//Log.e(TAG, "connect() exception");
 				} finally {
 					mContext.unbindService(this);
@@ -163,11 +166,11 @@ public class SimpleVpnManager {
 
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
-				// checkStatus();
+				checkStatus();
 
 			}
 		};
-		if (!mVpnManager.bindVpnService(c)) {
+		if (!bindService(c)) {
 			//TextView testText = (TextView) findViewById(R.id.testText);
 			//testText.setText("bind not ok");
 		}
@@ -183,7 +186,44 @@ public class SimpleVpnManager {
 		return connected;
 	}
 
-	abstract class SimpleVpnManagerServiceConnection implements
+    public void checkStatus() {
+        final ConditionVariable cv = new ConditionVariable();
+        cv.close();
+        ServiceConnection c = new ServiceConnection() {
+            public synchronized void onServiceConnected(ComponentName className,
+                    IBinder service) {
+                cv.open();
+                try {
+                    IVpnService.Stub.asInterface(service).checkStatus(mProfile);
+                } catch (RemoteException e) {
+                    Log.e(TAG, "checkStatus()", e);
+                    broadcastConnectivity(VpnState.IDLE);
+                } finally {
+                    mContext.unbindService(this);
+                }
+            }
+
+            public void onServiceDisconnected(ComponentName className) {
+                cv.open();
+                broadcastConnectivity(VpnState.IDLE);
+                mContext.unbindService(this);
+            }
+        };
+        if (bindService(c)) {
+            // wait for a second, let status propagate
+            if (!cv.block(1000)) broadcastConnectivity(VpnState.IDLE);
+        }
+    }
+
+    private boolean bindService(ServiceConnection c) {
+        return mVpnManager.bindVpnService(c);
+    }
+
+    private void broadcastConnectivity(VpnState s) {
+        mVpnManager.broadcastConnectivity(mProfile.getName(), s);
+    }
+
+    abstract class SimpleVpnManagerServiceConnection implements
 			ServiceConnection {
 		VpnProfile mProfile;
 		String mUsername;
